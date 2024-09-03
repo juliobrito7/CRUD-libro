@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>CRUD Libro</title>
+    <style>
+        .container{
+            max-width: 960px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="shadow-lg pb-3 mb-5 bg-body rounded">
+            <h4>Datos del libro</h4>
+            <form action="/crear" method="POST" enctype="multipart/form-data">
+                <div class="col-md-6">
+                    <label for="titulo" class="form-label">Titulo</label>
+                    <input id="titulo" name="titulo" type="text" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="autor" class="form-label">Autor</label>
+                    <input id="autor" name="autor" type="text" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="precio" class="form-label">Precio</label>
+                    <input id="precio" name="precio" type="number" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="imagen" class="form-label">Portada</label>
+                    <input id="imagen" name="imagen" type="file" class="form-control">
+                </div>
+                <button type="submit" class="w-100 btn btn-guardar btn.lg"><i class="bi bi-save"></i>Subir libro</button>
+            </form>
+
+
+            <table id="tablaLibros" class="table mt-4">
+                <thead>
+                    <tr>
+                        <th style="display: none;">ID</th>
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>Precio</th>
+                        <th>Portada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% libros.forEach( (libro) => { %>
+                        <tr>
+                            <td style="display: none;"><%= libro._id %></td>
+                            <td><%= libro.titulo %></td>
+                            <td><%= libro.autor %></td>
+                            <td><%= libro.precio %></td>
+                            <td>
+                                <% if (libro.imagen) { %>
+                                    <img src="<%= libro.imagen %>" alt="Portada" class="img-thumbnail" style="max-width: 100px;">
+                                <% } else { %>
+                                    No disponible
+                                <% } %>
+                            </td>
+                            <td>
+                                <a type="button" class="btnEditar btn btn-outline-primary bi bi-pencil"></a>
+                                <a href="/eliminar/<%= libro._id %>" class="btn btn-outline-danger bi bi-trash"></a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+    </div>
+
+    <!-- Modal para Editar   -->
+    <div id="modalLibro" class="modal fade" tabindex="-1" aria-labelledby="modalLibro" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Libro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/editar" method="POST" enctype="multipart/form-data">
+                        <input name="id_editar" id="id_editar" type="text" hidden>
+                    <div class="mb-3">
+                        <label for="titulo_editar" class="col-form-label">Titulo:</labe>
+                        <input id="titulo_editar" name="titulo_editar" type="text" class="form-control" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="autor_editar" class="col-form-label">Autor:</label>
+                        <input id="autor_editar" name="autor_editar" type="text" class="form-control" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio_editar" class="col-form-label">Precio:</label>
+                        <input id="precio_editar" name="precio_editar" type="number" class="form-control" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagen_actual" class="col-form-label">Imagen actual:</label>
+                        <img id="imagen_actual" src="" alt="Imagen actual" class="img-thumbnail" style="max-width: 100px; display: none;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagen_editar" class="col-form-label">Nueva imagen (opcional):</label>
+                        <input id="imagen_editar" name="imagen" type="file" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <script src="js/code.js"></script>
+</body>
+</html>
